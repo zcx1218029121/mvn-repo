@@ -1,6 +1,7 @@
 # mvn-repo
-mavn 仓库
-添加仓库
+
+# 添加仓库
+
 ```
  <repositories>
         <repository>
@@ -16,8 +17,8 @@ mavn 仓库
 
 
 
+# 添加 jar包
 
-添加 jar包
 ```
  <plugin>
                 <artifactId>maven-deploy-plugin</artifactId>
@@ -65,3 +66,91 @@ mavn 仓库
         </dependency>
     </dependencies>
 ```
+
+# 添加的jar包
+
+### Sms
+
+  腾讯云短信发送的封装jar包
+
+
+
+1. 添加依赖
+
+   ```java
+   <repositories>
+           <repository>
+               <id>mvn-repo</id>
+               <url>https://github.com/zcx1218029121/mvn-repo/master</url>
+               <snapshots>
+                   <enabled>true</enabled>
+                   <updatePolicy>always</updatePolicy>
+               </snapshots>
+           </repository>
+       </repositories>
+       
+       <dependency>
+               <groupId>com.sqjz</groupId>
+               <artifactId>Sms</artifactId>
+               <version>1.0-SNAPSHOT</version>
+       </dependency>
+   ```
+
+   
+
+2. 创建配置读取类
+
+   ```java
+   @Configuration
+   @ConfigurationProperties(
+       prefix = "tencent.sms"
+   )
+   public class SmsConfigurationProperties extends SmsConfig  {
+   }
+   ```
+
+   
+
+3. 注入bean 
+
+   比如在config中注入
+
+   ```java
+   @Configuration
+   public class SmsConfiguration {
+       @Resource
+       private SmsConfigurationProperties smsConfigurationProperties;
+   
+       @Bean
+       public TencentSms tencentSms() {
+           return TencentSms.singleton(smsConfigurationProperties);
+       }
+   
+   }
+   ```
+
+   
+
+4. 配置application.yml
+
+   ```yml
+   tencent:
+       sms:
+           appid: 123
+           appKey: "123"
+           configs:
+               user-auth:
+                   templateId: 123
+               user-tz:
+                   templateId: 123
+                   smsSign: "我是签名"
+                   region: "86"
+   
+   ```
+
+5.使用
+
+  ```java
+tencentSms.sendSingleSmsWithTemplate("user-auth","123456",new String[]{"code"});
+  ```
+
