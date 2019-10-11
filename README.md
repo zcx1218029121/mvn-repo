@@ -210,3 +210,13 @@ sms:
  AliyunSms.getInstance(new SmsConfigurationProperties()）
 ```
 
+### [tencent-cmq](https://github.com/zcx1218029121/mvn-repo/tree/master/com/sqjz/tencent-cmq)
+
+```java
+ 
+// 配置属性
+ SynchronousContract.configuration(配置,是否打印,logger)
+ pullMessageWithSQL(msgBody -> {return msgbody});} 
+ jsonStr2JavaObject(String json, @Nullable Function<String, String>  jsonDecode,Function<String, T> toJavaObject)
+```
+
