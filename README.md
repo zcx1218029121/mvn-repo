@@ -69,7 +69,7 @@
 
 # 添加的jar包
 
-### Sms
+### [Sms](https://github.com/zcx1218029121/mvn-repo/tree/master/com/sqjz/Sms)
 
   腾讯云短信发送的封装jar包
 
@@ -153,4 +153,60 @@
   ```java
 tencentSms.sendSingleSmsWithTemplate("user-auth","123456",new String[]{"code"});
   ```
+
+### [Aliyun-sms-tool](https://github.com/zcx1218029121/mvn-repo/tree/master/com/sqjz/Aliyun-sms-tool)
+
+  阿里云短信封装工具
+
+​	1.添加依赖
+
+```java
+<repositories>
+        <repository>
+            <id>mvn-repo</id>
+            <url>https://github.com/zcx1218029121/mvn-repo/master</url>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </snapshots>
+        </repository>
+    </repositories>
+    
+    <dependency>
+            <groupId>com.sqjz</groupId>
+            <artifactId>Sms</artifactId>
+            <version>1.0-SNAPSHOT</version>
+    </dependency>
+```
+
+2. 创建配置读取类
+
+```java
+@Configuration
+@ConfigurationProperties(
+    prefix = "sms"
+)
+public class SmsConfigurationProperties extends AliyunSmsProperties {
+}
+```
+
+3.编写配置类
+
+```
+sms:
+    access-key: "access-key"
+    access-secret: "access-secret"
+    configs:
+        user-auth:
+            sign: "我是签名"
+            template-code: "我是模板id"
+            timeout: 60
+            length: 6
+```
+
+在spring框架之外使用
+
+```java
+ AliyunSms.getInstance(new SmsConfigurationProperties()）
+```
 
